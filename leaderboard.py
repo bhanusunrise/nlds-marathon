@@ -196,6 +196,7 @@ def approved_bar_chart(data):
     fig_approved = px.bar(df_entity_approved_total, x='Entity', y='Total_Approved', title='Total Approvals by Entity', labels={'Entity': 'Entity', 'Total_Approved': 'Approvals'},color='Entity')
     # Hide the legend
     fig_approved.update_layout(showlegend=False)
+    return fig_approved
 
 
 # Main Streamlit app
