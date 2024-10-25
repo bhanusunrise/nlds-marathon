@@ -76,8 +76,6 @@ def calculate_total_approved(df):
             entity_approved_total[entity] += approved
     return entity_approved_total
 
-# Function to calculate the total points of each entity
-
 
 def calulate_total_points(df):
     entity_sum = {}
@@ -135,11 +133,6 @@ def calculate_ranks_on_score(df):
 
 def display_leaderboard(df, total_approvals, total_applications):
 
-    # Rename the column 'Total' to 'Total Points'
-    df.rename(columns={'Total': 'Total Points'}, inplace=True)
-    df.rename(columns={'Total_Approved': 'Total Approvals'}, inplace=True)
-    df.rename(columns={'Total_Applied': 'Total Applications'}, inplace=True)
-
     # Define a layout with two columns
     col1, col2, col3 = st.columns([3, 1, 1])
 
@@ -189,6 +182,8 @@ def display_score_ranks(df):
 
     # Drop the index column
     df_without_index = df_with_ranks[['Rank', 'Entity', 'Total']]
+    # Rename the column 'Total' to 'Total Points'
+    df_with_ranks.rename(columns={'Total': 'Total Points'}, inplace=True)
 
     # Apply gold, silver, and bronze medals to the 'Entity' column
     df_with_ranks['Entity'] = df_with_ranks.apply(lambda row:
@@ -205,7 +200,7 @@ def display_score_ranks(df):
     # display_leaderboard(df_with_ranks)
 
 
-def applied_bar_chart_and_data(data):
+def applied_bar_chart(data):
     # Calculate total 'Applied' related to each entity
     entity_applied_total = calculate_total_applied(data)
 
@@ -225,7 +220,7 @@ def applied_bar_chart_and_data(data):
     return fig_applied, df_entity_applied_total
 
 
-def approved_bar_chart_and_data(data):
+def approved_bar_chart(data):
     # Calculate total 'Approved' related to each entity
     entity_approved_total = calculate_total_approved(data)
 
@@ -243,22 +238,7 @@ def approved_bar_chart_and_data(data):
     return fig_approved, df_entity_approved_total
 
 
-def total_points_and_ranks(data):
-    entity_points_total = calulate_total_points(data)
-    df_entity_points_total = pd.DataFrame.from_dict(
-        entity_points_total, orient='index', columns=['Total'])
-    df_entity_points_total.reset_index(inplace=True)
-    df_entity_points_total.rename(columns={'index': 'Entity'}, inplace=True)
-
-    # Use the function to display the ranks table
-    # display_approval_ranks(df_entity_approved_total)
-    df_ranks = display_score_ranks(df_entity_points_total)
-
-    return df_ranks
-
 # Main Streamlit app
-
-
 def main():
     st.set_page_config(
         layout="centered",
@@ -284,17 +264,22 @@ def main():
         # Check if the 'Entity' column exists in the DataFrame
         if 'Entity' in data.columns:
 
-            # calculation of leaderboard items
-            fig_applied, df_entity_applied_total = applied_bar_chart_and_data(
-                data)
-            fig_approved, df_entity_approved_total = approved_bar_chart_and_data(
-                data)
-            df_ranks = total_points_and_ranks(data)
+            fig_applied, df_entity_applied_total = applied_bar_chart(data)
+            fig_approved, df_entity_approved_total = approved_bar_chart(data)
 
-            # df_combined = pd.concat(df_ranks, df_entity_applied_total, df_entity_approved_total, on='Entity')
-            # df_combined = df_ranks.merge(df_entity_applied_total, on='Entity').merge(df_entity_approved_total, on='Entity')
-            df_combined = df_entity_applied_total.merge(
-                df_entity_approved_total, on='Entity').merge(df_ranks, on='Entity')
+            entity_points_total = calulate_total_points(data)
+            df_entity_points_total = pd.DataFrame.from_dict(
+                entity_points_total, orient='index', columns=['Total'])
+            df_entity_points_total.reset_index(inplace=True)
+            df_entity_points_total.rename(
+                columns={'index': 'Entity'}, inplace=True)
+
+            # Use the function to display the ranks table
+            # display_approval_ranks(df_entity_approved_total)
+            df_ranks = display_score_ranks(df_entity_points_total)
+
+            df_combined = df_ranks.merge(df_entity_applied_total, on='Entity').merge(
+                df_entity_approved_total, on='Entity')
 
             display_leaderboard(df_combined, df_combined['Total_Approved'].sum(
             ), df_combined['Total_Applied'].sum())
