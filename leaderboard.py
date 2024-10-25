@@ -118,7 +118,7 @@ def display_leaderboard(df, total_approvals):
     # Display the leaderboard in the second column
     # with col2:
         # st.metric(label="Total AP Approvals", value=total_approvals)
-        # st.button(f"Total AP Approvals : *{total_approvals}*", key="no_action_button")
+        # st.button(f"Total AP Approvals : **{total_approvals}**", key="no_action_button")
         # st.metric(label="Total Approvals", value=total_approvals)
     st.dataframe(df.set_index('Rank'), use_container_width=True, height=250)
 
@@ -231,8 +231,6 @@ def main():
             df_entity_points_total.reset_index(inplace=True)
             df_entity_points_total.rename(columns={'index': 'Entity'}, inplace=True)
 
-
-
             # Use the function to display the ranks table
             # display_approval_ranks(df_entity_approved_total)
             display_score_ranks(df_entity_points_total)
@@ -267,12 +265,12 @@ def main():
             
             st.write("<br><br>", unsafe_allow_html=True)
             #Footer - It would be great if you could give us a recognition for the team.
-            st.write("<p style='text-align: center;'>Made with ❤ by &lt;/Dev.Team&gt; of <strong>AIESEC in Sri Lanka</strong></p>", unsafe_allow_html=True)
+            st.write("<p style='text-align: center;'>Made with ❤️ by &lt;/Dev.Team&gt; of <strong>AIESEC in Sri Lanka</strong></p>", unsafe_allow_html=True)
 
         else:
             st.error("The 'Entity' column does not exist in the loaded data.")
     else:
         st.error("Failed to load data.")
 
-if name == "main":
+if __name__ == "__main__":
     main()
