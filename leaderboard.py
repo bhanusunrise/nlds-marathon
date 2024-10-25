@@ -274,5 +274,5 @@ def main():
     else:
         st.error("Failed to load data.")
 
-if _name_ == "_main_":
+if name == "main":
     main()
