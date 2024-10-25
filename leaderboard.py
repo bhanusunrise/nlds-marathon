@@ -235,7 +235,7 @@ def main():
             # display_approval_ranks(df_entity_approved_total)
             display_score_ranks(df_entity_points_total)
 
-            st.plotly_chart(fig_approved, use_container_width=True)
+            #st.plotly_chart(fig_approved, use_container_width=True)
             st.plotly_chart(fig_applied, use_container_width=True)
 
             ###############################################################################
