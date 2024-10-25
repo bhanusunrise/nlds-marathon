@@ -145,7 +145,9 @@ def main():
     ## Datasource url / Google Sheets CSV
     #sheet_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXOP09TlmTmfTCx5x7Dwgm8s80W4z7m9plWqbZ7Lfodxox-26BoTNDq-tozEQylR7jKa3UbtIjU1I1/pub?gid=1562137798&single=true&output=csv"
 
-    sheet_url = "https://docs.google.com/spreadsheets/d/1H6Yv8J2jOHLQybdjvhmIa9Ya6LluO68Cl6xrkHTRdJk/edit?gid=1562137798#gid=1562137798"
+    #sheet_url = "https://docs.google.com/spreadsheets/d/1H6Yv8J2jOHLQybdjvhmIa9Ya6LluO68Cl6xrkHTRdJk/edit?gid=1562137798#gid=1562137798"
+    sheet_url = "https://docs.google.com/spreadsheets/d/1H6Yv8J2jOHLQybdjvhmIa9Ya6LluO68Cl6xrkHTRdJk/export?gid=1562137798&format=csv"
+
 
     # Load data using the cached function
     data = load_data(sheet_url)
