@@ -278,8 +278,8 @@ def main():
             # display_approval_ranks(df_entity_approved_total)
             df_ranks = display_score_ranks(df_entity_points_total)
 
-            df_combined = pd.concat(
-                df_ranks, df_entity_applied_total, df_entity_approved_total, on='Entity')
+            df_combined = df_ranks.merge(df_entity_applied_total, on='Entity').merge(
+                df_entity_approved_total, on='Entity')
 
             display_leaderboard(df_combined, df_combined['Total_Approved'].sum(
             ), df_combined['Total_Applied'].sum())
